@@ -18,12 +18,12 @@ let MyMenu = (props) => {
       ? props.history.push("/login")
       : axios
           .get(
-            `http://localhost:5000/api/admin/getMenu/${props.user.id}`,
+            `http://localhost:5000/api/admin/getMenu/${props.user.email}`,
             generateTokenConfig(Store.store.getState)
           )
           .then((res) => {
-            JSON.stringify(res.data.data);
-            setMenu(res.data.data);
+            // console.log(res.data.menu);
+            setMenu(res.data.menu[0].categories);
             setIsMenuLoaded(true);
           })
           .catch((err) => {
@@ -41,10 +41,10 @@ let MyMenu = (props) => {
               <h1 className="ml-3">MY MENU</h1>
             </div>
             <div className="card-body">
-              {console.log(menu.categories)}
+              {console.log(menu)}
               <ul type="none">
                 {isMenuLoaded ? (
-                  menu.categories.map((value, indx) => {
+                  menu.map((value, indx) => {
                     return (
                       <li key={indx}>
                         <h3>{value.name}</h3>

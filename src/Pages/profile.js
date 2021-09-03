@@ -23,12 +23,12 @@ let Profile = (props) => {
       ? props.history.push("/login")
       : axios
           .get(
-            `http://localhost:5000/api/admin/getUserInfo/${props.user.id}`,
+            `http://localhost:5000/api/admin/getUserInfo/${props.user.email}`,
             generateTokenConfig(Store.store.getState)
           )
           .then((res) => {
-            JSON.stringify(res.data.data);
-            setUserInfo(res.data.data);
+            JSON.stringify(res.data.userPersonalInfo);
+            setUserInfo(res.data.userPersonalInfo);
             setIsUserLoaded(true);
           })
           .catch((err) => {

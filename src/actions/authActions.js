@@ -14,7 +14,7 @@ import {
 import { returnErrors } from "./errorActions";
 
 // setup config/header
-export const generateTokenConfig = (getState) => {
+export const generateTokenConfig = (getState, email) => {
   // get token from app state
   let token = getState().auth.token;
 
@@ -50,72 +50,70 @@ export const loadUser = () => (dispatch, getState) => {
 };
 
 // register user
-export const registerUser = (
-  { username, email, password },
-  history = null,
-  url = null
-) => (dispatch) => {
-  const config = {
-    headers: {
-      "Content-Type": "application/json",
-    },
-  };
+export const registerUser =
+  ({ username, email, password }, history = null, url = null) =>
+  (dispatch) => {
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
 
-  // req body
-  const body = JSON.stringify({ username, email, password });
-  // console.log(body);
+    // req body
+    const body = JSON.stringify({ username, email, password });
+    // console.log(body);
 
-  axios
-    .post("/api/registerUser", body, config)
-    .then((res) => {
-      dispatch({
-        type: REGISTER_SUCCESS,
-        payload: res.data,
+    axios
+      .post("/api/registerUser", body, config)
+      .then((res) => {
+        dispatch({
+          type: REGISTER_SUCCESS,
+          payload: res.data,
+        });
+        history.push("/" + url);
+        // console.log(res.data);
+      })
+      .catch((err) => {
+        // console.log(body);
+        dispatch(
+          returnErrors(err.response.data, err.response.status, REGISTER_FAIL)
+        );
+        dispatch({ type: REGISTER_FAIL });
       });
-      history.push("/" + url);
-      // console.log(res.data);
-    })
-    .catch((err) => {
-      // console.log(body);
-      dispatch(
-        returnErrors(err.response.data, err.response.status, REGISTER_FAIL)
-      );
-      dispatch({ type: REGISTER_FAIL });
-    });
-};
+  };
 
 // login user
-export const loginUser = ({ email, password }, history = null, url = null) => (
-  dispatch
-) => {
-  const config = {
-    headers: {
-      "Content-Type": "application/json",
-    },
-  };
+export const loginUser =
+  ({ email, password }, history = null, url = null) =>
+  (dispatch) => {
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
 
-  // req body
-  const body = JSON.stringify({ email, password });
-  // console.log(body);
+    // req body
+    const body = JSON.stringify({ email, password });
+    // console.log(body);
 
-  axios
-    .post("http://localhost:5000/api/authUser", body, config)
-    .then((res) => {
-      dispatch({
-        type: LOGIN_SUCCESS,
-        payload: res.data,
+    axios
+      .post("http://localhost:5000/api/authUser", body, config)
+      .then((res) => {
+        dispatch({
+          type: LOGIN_SUCCESS,
+          payload: res.data,
+        });
+        history.push("/" + url);
+        console.log(res.data);
+      })
+      .catch((err) => {
+        console.log(body);
+        dispatch(
+          returnErrors(err.response.data, err.response.status, LOGIN_FAIL)
+        );
+        dispatch({ type: LOGIN_FAIL });
       });
-      history.push("/" + url);
-      console.log(res.data);
-    })
-    .catch((err) => {
-      console.log(body);
-      dispatch(
-        returnErrors(err.response.data, err.response.status, LOGIN_FAIL)
-      );
-      dispatch({ type: LOGIN_FAIL });
-    });
-};
+  };
 
 // logout
 export const logout = () => {
