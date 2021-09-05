@@ -6,7 +6,8 @@ const Footer = () => {
       <footer className="sticky-footer bg-white mt-4">
         <div className="container my-auto">
           <div className="copyright text-center my-auto">
-            <span>Copyright &copy; Nibodh Solutions 2020</span>
+            {/* <span>Copyright &copy; Nibodh Solutions 2020</span> */}
+            <span>Made by Tejas Asthana</span>
           </div>
         </div>
       </footer>
