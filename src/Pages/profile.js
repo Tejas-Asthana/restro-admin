@@ -23,7 +23,7 @@ let Profile = (props) => {
       ? props.history.push("/login")
       : axios
           .get(
-            `http://localhost:5000/api/admin/getUserInfo/${props.user.email}`,
+            `http://localhost:5000/api/admin/getUserInfo/${props.user.id}`,
             generateTokenConfig(Store.store.getState)
           )
           .then((res) => {
@@ -330,6 +330,7 @@ let Profile = (props) => {
 
 const mapStateToProps = (state) => ({
   user: state.auth.user,
+  id: state.auth.id,
   isAuthenticated: state.auth.isAuthenticated,
   error: state.error,
 });

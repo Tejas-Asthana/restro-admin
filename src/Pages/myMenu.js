@@ -18,12 +18,12 @@ let MyMenu = (props) => {
       ? props.history.push("/login")
       : axios
           .get(
-            `http://localhost:5000/api/admin/getMenu/${props.user.email}`,
+            `http://localhost:5000/api/admin/getMenu/${props.user.id}`,
             generateTokenConfig(Store.store.getState)
           )
           .then((res) => {
             // console.log(res.data.menu);
-            setMenu(res.data.menu[0].categories);
+            setMenu(res.data.menu.categories);
             setIsMenuLoaded(true);
           })
           .catch((err) => {

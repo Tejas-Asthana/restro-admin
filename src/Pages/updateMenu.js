@@ -21,11 +21,11 @@ let Profile = (props) => {
       ? props.history.push("/login")
       : axios
           .get(
-            `http://localhost:5000/api/admin/getMenu/${props.user.email}`,
+            `http://localhost:5000/api/admin/getMenu/${props.user.id}`,
             generateTokenConfig(Store.store.getState)
           )
           .then((res) => {
-            setMenu(res.data.menu[0]);
+            setMenu(res.data.menu);
             setIsMenuLoaded(true);
           })
           .catch((err) => {
@@ -57,6 +57,7 @@ let Profile = (props) => {
 
 const mapStateToProps = (state) => ({
   user: state.auth.user,
+  id: state.auth.id,
   isAuthenticated: state.auth.isAuthenticated,
   error: state.error,
 });
