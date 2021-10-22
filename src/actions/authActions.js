@@ -104,7 +104,7 @@ export const loginUser =
           payload: res.data,
         });
         history.push("/" + url);
-        console.log(res.data);
+        // console.log(res.data);
       })
       .catch((err) => {
         console.log(body);

@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 function HomeBtn() {
   return (
-    <Link to="/privatePage">
+    <Link to="/profile">
       <button className="btn btn-primary">Private page</button>
     </Link>
   );

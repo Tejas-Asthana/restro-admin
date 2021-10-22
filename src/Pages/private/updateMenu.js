@@ -2,13 +2,13 @@ import React, { Fragment, useState, useEffect } from "react";
 import axios from "axios";
 import { connect } from "react-redux";
 
-import Base from "../components/base/Base/Base";
-import Store from "../store/store";
-import { loadUser, generateTokenConfig } from "../actions/authActions";
+import Base from "../../components/base/Base/Base";
+import Store from "../../store/store";
+import { loadUser, generateTokenConfig } from "../../actions/authActions";
 
-import AddCategory from "../components/updateMenu/AddCategory";
-import AddSubCategory from "../components/updateMenu/AddSubCategory";
-import AddDish from "../components/updateMenu/AddDish";
+import AddCategory from "../../components/updateMenu/AddCategory";
+import AddSubCategory from "../../components/updateMenu/AddSubCategory";
+import AddDish from "../../components/updateMenu/AddDish";
 
 let Profile = (props) => {
   let [menu, setMenu] = useState({});

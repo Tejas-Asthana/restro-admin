@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 
-import Base from "../components/base/Base/Base";
-import { loadUser } from "../actions/authActions";
+import Base from "../../components/base/Base/Base";
+import { loadUser } from "../../actions/authActions";
 
-let Profile = (props) => {
+let BlankPvtPage = (props) => {
   useEffect(() => {
     props.loadUser();
   }, []);
@@ -12,7 +12,7 @@ let Profile = (props) => {
   return props.isAuthenticated ? (
     <>
       <Base>
-        <h1>Payment</h1>
+        <h1>Blank Private Page</h1>
       </Base>
     </>
   ) : (
@@ -25,4 +25,4 @@ const mapStateToProps = (state) => ({
   error: state.error,
 });
 
-export default connect(mapStateToProps, { loadUser })(Profile);
+export default connect(mapStateToProps, { loadUser })(BlankPvtPage);

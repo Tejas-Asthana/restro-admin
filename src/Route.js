@@ -3,15 +3,14 @@ import { BrowserRouter as Router, Route } from "react-router-dom";
 
 // import Navbar from "./components/navbar";
 import Home from "./Pages/Home";
-import PrivatePage from "./Pages/PrivatePage";
 import Login from "./Pages/Login";
 import Signup from "./Pages/Signup";
 
-import Profile from "./Pages/profile";
-import UpdateMenu from "./Pages/updateMenu";
-import MyMenu from "./Pages/myMenu";
-import Reviews from "./Pages/reviews";
-import Payment from "./Pages/payment";
+import Profile from "./Pages/private/profile";
+import UpdateMenu from "./Pages/private/updateMenu";
+import MyMenu from "./Pages/private/myMenu";
+import Reviews from "./Pages/private/reviews";
+import Chats from "./Pages/private/Chats";
 
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
@@ -29,9 +28,8 @@ function Routes() {
           <Route exact path="/menu/updateMenu" component={UpdateMenu} />
           <Route exact path="/menu/myMenu" component={MyMenu} />
           <Route exact path="/reviews" component={Reviews} />
-          <Route exact path="/payment" component={Payment} />
+          <Route exact path="/chats" component={Chats} />
 
-          <Route exact path="/privatePage" component={PrivatePage} />
           <Route exact path="/login" component={Login} />
           <Route exact path="/signup" component={Signup} />
         </PersistGate>

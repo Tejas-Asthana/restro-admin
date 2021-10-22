@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
-import Store from "../store/store";
+import Store from "../../store/store";
 import axios from "axios";
 
-import Base from "../components/base/Base/Base";
-import { loadUser } from "../actions/authActions";
-import { generateTokenConfig } from "../actions/authActions";
+import Base from "../../components/base/Base/Base";
+import { loadUser } from "../../actions/authActions";
+import { generateTokenConfig } from "../../actions/authActions";
 
 let MyMenu = (props) => {
   let [menu, setMenu] = useState({});

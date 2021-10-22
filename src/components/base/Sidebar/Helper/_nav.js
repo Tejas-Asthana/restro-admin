@@ -24,8 +24,8 @@ const NavObjectArray = [
     isActive: true,
   },
   {
-    title: "Payment",
-    redirectionLink: "/payment",
+    title: "Chats",
+    redirectionLink: "/chats",
     iconClass: "fas fa-fw fa-user",
     isActive: true,
   },
