@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import { io } from "socket.io-client";
 import Base from "../../components/base/Base/Base";
@@ -6,17 +6,37 @@ import { loadUser } from "../../actions/authActions";
 
 let Chats = (props) => {
   const socket = io("http://localhost:5000", {
-    query: { from: "restraunt", id: props.user.id },
+    data: { res_id: props.user.id },
     transports: ["websocket", "polling", "flashsocket"],
   });
 
-  socket.on("connect", () => {
-    console.log(socket.id); // WHduC6eoGEiiGoIWAAAB
-  });
+  // let [socketData, setSocketData] = useState({ res_id: null, c_id: null });
+
+  const sendText = (new_msg) => {
+    socket.emit("new_msg_r", {
+      data: {
+        new_msg,
+        res_id: props.user.id,
+        r_s_id: socket.id,
+      },
+    });
+  };
 
   useEffect(() => {
     props.loadUser();
-  }, []);
+
+    socket.on("connect", (payload) => {
+      console.log("payload: ", payload);
+      console.log(socket.id, props.user.id);
+      socket.emit("r-login", {
+        data: { res_id: props.user?.id, r_s_id: socket.id },
+      });
+
+      sendText("Hello world");
+
+      socket.emit("disconnect");
+    });
+  });
 
   return props.isAuthenticated ? (
     <>
