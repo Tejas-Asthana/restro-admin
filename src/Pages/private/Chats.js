@@ -1,41 +1,74 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
-import { io } from "socket.io-client";
+import { socket } from "./socket.jsx";
 import Base from "../../components/base/Base/Base";
 import { loadUser } from "../../actions/authActions";
 
 let Chats = (props) => {
-  const socket = io("http://localhost:5000", {
-    data: { res_id: props.user.id },
-    transports: ["websocket", "polling", "flashsocket"],
+  useEffect(() => {
+    props.loadUser();
+    rLogin();
   });
+  let msgs = new Map();
 
-  // let [socketData, setSocketData] = useState({ res_id: null, c_id: null });
+  // allmsgs = {
+  //   c_s_id: {
+  //     personal: { __ },
+  //     chat:[{ __ }, { __ }],
+  //   }
+  // };
 
-  const sendText = (new_msg) => {
-    socket.emit("new_msg_r", {
-      data: {
-        new_msg,
-        res_id: props.user.id,
-        r_s_id: socket.id,
-      },
+  const rLogin = () => {
+    socket.emit("r-login", {
+      data: { res_id: props.user?.id, r_s_id: socket.id },
     });
   };
 
-  useEffect(() => {
-    props.loadUser();
+  socket.on("login-successful", (payload) => {
+    console.log("LOGIN CONFIRMATION SUCCESSFUL !");
+  });
 
-    socket.on("connect", (payload) => {
-      console.log("payload: ", payload);
-      console.log(socket.id, props.user.id);
-      socket.emit("r-login", {
-        data: { res_id: props.user?.id, r_s_id: socket.id },
-      });
-
-      sendText("Hello world");
-
-      socket.emit("disconnect");
+  const sendText = (new_msg, c_s_id) => {
+    socket.emit("new_msg_r", {
+      data: {
+        new_msg,
+        from: "res",
+        res_id: props.user.id,
+        r_s_id: socket.id,
+        c_s_id,
+      },
     });
+    if (msgs.has(c_s_id)) {
+      let tmp = msgs.get(c_s_id);
+      tmp.chat.push(new_msg);
+      msgs.set(c_s_id, tmp);
+    } else {
+      let cust = {
+        chat: [],
+      };
+      cust.chat.push(new_msg);
+      msgs.set(c_s_id, cust);
+    }
+  };
+
+  // sendText("Hello world", NULL);
+
+  socket.on("new_login_c", (payload) => {
+    console.log("New customer logged-in. c_s_id:", payload?.data?.c_s_id);
+    // let msg = { txt: "Welcome customer !", from: "res", userAction: false };
+    // sendText(msg, payload?.data?.c_s_id);
+  });
+
+  socket.on("new_msg_ctor", (payload) => {
+    console.log("New msg received from customer: ", payload.data.c_s_id);
+    console.log(payload.data.txt);
+    if (msgs.get(payload.data.c_s_id).chat != undefined)
+      msgs.get(payload.data.c_s_id).chat.push(payload.data.txt);
+    else {
+      msgs = { chat: [] };
+      msgs.chat.push(payload.data.txt);
+      msgs.set(payload.data.c_s_id, msgs);
+    }
   });
 
   return props.isAuthenticated ? (
